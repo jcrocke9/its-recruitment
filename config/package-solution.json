@@ -1,0 +1,11 @@
+{
+  "solution": {
+    "name": "its-recruitment-client-side-solution",
+    "id": "5e4b3ced-5669-429b-81f2-a65c68bb8878",
+    "version": "1.0.0.0",
+    "skipFeatureDeployment": false
+  },
+  "paths": {
+    "zippedPackage": "solution/its-recruitment.sppkg"
+  }
+}

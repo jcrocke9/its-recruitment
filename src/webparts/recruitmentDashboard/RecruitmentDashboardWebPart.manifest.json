@@ -1,0 +1,27 @@
+{
+  "$schema": "../../../node_modules/@microsoft/sp-module-interfaces/lib/manifestSchemas/jsonSchemas/clientSideComponentManifestSchema.json",
+
+  "id": "b1fa5d76-d756-4853-b698-4dc83d90f83d",
+  "alias": "RecruitmentDashboardWebPart",
+  "componentType": "WebPart",
+
+  // The "*" signifies that the version should be taken from the package.json
+  "version": "*",
+  "manifestVersion": 2,
+
+  // If true, the component can only be installed on sites where Custom Script is allowed.
+  // Components that allow authors to embed arbitrary script code should set this to true.
+  // https://support.office.com/en-us/article/Turn-scripting-capabilities-on-or-off-1f2c515f-5d7e-448a-9fd7-835da935584f
+  "requiresCustomScript": false,
+
+  "preconfiguredEntries": [{
+    "groupId": "b1fa5d76-d756-4853-b698-4dc83d90f83d",
+    "group": { "default": "Under Development" },
+    "title": { "default": "Recruitment Dashboard" },
+    "description": { "default": "Tells the current description of the requirement process" },
+    "officeFabricIconFontName": "Page",
+    "properties": {
+      "description": "Recruitment Dashboard"
+    }
+  }]
+}

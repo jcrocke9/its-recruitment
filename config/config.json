@@ -1,0 +1,13 @@
+{
+  "entries": [
+    {
+      "entry": "./lib/webparts/recruitmentDashboard/RecruitmentDashboardWebPart.js",
+      "manifest": "./src/webparts/recruitmentDashboard/RecruitmentDashboardWebPart.manifest.json",
+      "outputPath": "./dist/recruitment-dashboard.bundle.js"
+    }
+  ],
+  "externals": {},
+  "localizedResources": {
+    "recruitmentDashboardStrings": "webparts/recruitmentDashboard/loc/{locale}.js"
+  }
+}
