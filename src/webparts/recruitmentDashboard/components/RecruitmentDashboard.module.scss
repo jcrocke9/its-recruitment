@@ -66,6 +66,14 @@
     padding-left: 0;
   }
   .li div {
-    margin-bottom: 8px;
+    margin: 4px 0;
+
+  }
+  .fakerow {
+    margin: 0 -8px;
+    box-sizing: border-box;
+  }
+  .key {
+    padding: 20px;
   }
 }
