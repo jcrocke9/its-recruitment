@@ -1,6 +1,8 @@
 import * as React from 'react';
 import styles from './RecruitmentDashboard.module.scss';
+import './Modal.Basic.Example.scss';
 import { SPHttpClient, SPHttpClientResponse } from '@microsoft/sp-http';
+import { Modal } from 'office-ui-fabric-react/lib/Modal';
 import { IRecruitmentApiProps } from './IRecruitmentApiProps';
 import { IRecruitmentApiState } from './IRecruitmentApiState';
 import { IListItem } from './IListItem';
@@ -13,7 +15,8 @@ export class RecruitmentApi extends React.Component<IRecruitmentApiProps, IRecru
 
         this.state = {
             status: this.listNotConfigured(this.props) ? 'Please configure list in Web Part properties' : 'Ready',
-            items: []
+            items: [],
+            vrDetailsVisible: false
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -53,17 +56,29 @@ export class RecruitmentApi extends React.Component<IRecruitmentApiProps, IRecru
             return (
                 <li className={`${styles.li}`}>
                     <div className="ms-Grid-row">
-                        <div className={`ms-bgColor-${bgColor} ms-fontColor-white ms-Grid-col ms-u-lg1 ms-u-lgPush${lanePush}`} >
+                        <div className={`ms-bgColor-${bgColor} ms-fontColor-white ms-Grid-col ms-u-lg1 ms-u-lgPush${lanePush}`} onClick={this._showDetails.bind(this)} >
                             {item.Title}
                         </div>
-
                     </div>
+                    <Modal
+                        isOpen={this.state.vrDetailsVisible}
+                        onDismiss={this._closeModal.bind(this)}
+                        isBlocking={false}
+                        containerClassName='ms-modalExample-container'
+                    >
+                        <div className="ms-font-l ms-modalExample-header">
+                            <span>{item.Title}</span>
+                        </div>
+                        <div className='ms-font-m ms-modalExample-body'>
+                            <div className="ms-Grid-row">
+                                <div className="ms-Grid-col ms-u-lg3">Step</div>
+                                <div className="ms-Grid-col ms-u-lg9">{item.vrStep}</div>
+                            </div>
+                        </div>
+                    </Modal>
                 </li>
             );
         });
-
-        const disabled: string = this.listNotConfigured(this.props) ? styles.disabled : '';
-
 
         return (
             <div>
@@ -248,12 +263,10 @@ export class RecruitmentApi extends React.Component<IRecruitmentApiProps, IRecru
         return stepOutput;
     }
 
-    private showDetails() {
-        var x = document.getElementById('myDIV');
-        if (x.style.display === 'none') {
-            x.style.display = 'block';
-        } else {
-            x.style.display = 'none';
-        }
+    private _showDetails() {
+        this.setState({ vrDetailsVisible: true })
+    }
+    private _closeModal() {
+        this.setState({ vrDetailsVisible: false })
     }
 }
