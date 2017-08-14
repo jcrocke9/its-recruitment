@@ -7,6 +7,7 @@ import { IRecruitmentApiProps } from './IRecruitmentApiProps';
 import { IRecruitmentApiState } from './IRecruitmentApiState';
 import { IListItem } from './IListItem';
 import { IStep } from './IStep';
+import { VrDetailsModal } from './vrDetailsModal';
 export class RecruitmentApi extends React.Component<IRecruitmentApiProps, IRecruitmentApiState> {
     private listItemEntityTypeName: string = undefined;
 
@@ -35,7 +36,7 @@ export class RecruitmentApi extends React.Component<IRecruitmentApiProps, IRecru
         this.setState({
             status: '',
             items: []
-        })
+        });
     }
 
     componentDidMount() {
@@ -52,30 +53,16 @@ export class RecruitmentApi extends React.Component<IRecruitmentApiProps, IRecru
             let step: string = stepDesc.slice(1, 3);
             let lane: number = (this.figureOutLaneFromStep(step)).lane;
             let lanePush: number = lane - 1;
+            let lanePushSm: number = lane - 3;
             let bgColor: string = (this.figureOutLaneFromStep(step)).bgColor;
             return (
                 <li className={`${styles.li}`}>
                     <div className="ms-Grid-row">
-                        <div className={`ms-bgColor-${bgColor} ms-fontColor-white ms-Grid-col ms-u-lg1 ms-u-lgPush${lanePush}`} onClick={this._showDetails.bind(this)} >
+                        <div className={`ms-bgColor-${bgColor} ms-fontColor-white ms-Grid-col ms-u-sm4 ms-u-smPush${lanePushSm} ms-u-lg1 ms-u-lgPush${lanePush}`} onClick={this._showDetails.bind(this)} >
                             {item.Title}
                         </div>
                     </div>
-                    <Modal
-                        isOpen={this.state.vrDetailsVisible}
-                        onDismiss={this._closeModal.bind(this)}
-                        isBlocking={false}
-                        containerClassName='ms-modalExample-container'
-                    >
-                        <div className="ms-font-l ms-modalExample-header">
-                            <span>{item.Title}</span>
-                        </div>
-                        <div className='ms-font-m ms-modalExample-body'>
-                            <div className="ms-Grid-row">
-                                <div className="ms-Grid-col ms-u-lg3">Step</div>
-                                <div className="ms-Grid-col ms-u-lg9">{item.vrStep}</div>
-                            </div>
-                        </div>
-                    </Modal>
+                    <VrDetailsModal filter={item.Id} item={item} vrDetailsVisible={this.state.vrDetailsVisible} _closeModal={this._closeModal.bind(this)} />
                 </li>
             );
         });
@@ -87,64 +74,45 @@ export class RecruitmentApi extends React.Component<IRecruitmentApiProps, IRecru
                     <ul className={`${styles.ul}`}>
                         <li className={`${styles.li}`}>
                             <div className={`${styles.fakerow}`}>
-                                <div className="ms-Grid-col ms-u-lg1">1</div>
+                                <div className="ms-Grid-col ms-u-lg1">Decision</div>
                             </div>
                         </li>
                         <li className={`${styles.li}`}>
                             <div className={`${styles.fakerow}`}>
-                                <div className="ms-Grid-col ms-u-lg1">2</div>
+                                <div className="ms-Grid-col ms-u-lg1">OMB</div>
                             </div>
                         </li>
                         <li className={`${styles.li}`}>
                             <div className={`${styles.fakerow}`}>
-                                <div className="ms-Grid-col ms-u-lg1">3</div>
+                                <div className="ms-Grid-col ms-u-lg1">NeoGov</div>
                             </div>
                         </li>
                         <li className={`${styles.li}`}>
                             <div className={`${styles.fakerow}`}>
-                                <div className="ms-Grid-col ms-u-lg1">4</div>
+                                <div className="ms-Grid-col ms-u-lg1">Posts</div>
                             </div>
                         </li>
                         <li className={`${styles.li}`}>
                             <div className={`${styles.fakerow}`}>
-                                <div className="ms-Grid-col ms-u-lg1">5</div>
+                                <div className="ms-Grid-col ms-u-lg1">Screening</div>
                             </div>
                         </li>
                         <li className={`${styles.li}`}>
                             <div className={`${styles.fakerow}`}>
-                                <div className="ms-Grid-col ms-u-lg1">6</div>
+                                <div className="ms-Grid-col ms-u-lg1">Interview</div>
                             </div>
                         </li>
                         <li className={`${styles.li}`}>
                             <div className={`${styles.fakerow}`}>
-                                <div className="ms-Grid-col ms-u-lg1">7</div>
+                                <div className="ms-Grid-col ms-u-lg1">Offer</div>
                             </div>
                         </li>
                         <li className={`${styles.li}`}>
                             <div className={`${styles.fakerow}`}>
-                                <div className="ms-Grid-col ms-u-lg1">8</div>
+                                <div className="ms-Grid-col ms-u-lg1">Onboarding</div>
                             </div>
                         </li>
-                        <li className={`${styles.li}`}>
-                            <div className={`${styles.fakerow}`}>
-                                <div className="ms-Grid-col ms-u-lg1">9</div>
-                            </div>
-                        </li>
-                        <li className={`${styles.li}`}>
-                            <div className={`${styles.fakerow}`}>
-                                <div className="ms-Grid-col ms-u-lg1">10</div>
-                            </div>
-                        </li>
-                        <li className={`${styles.li}`}>
-                            <div className={`${styles.fakerow}`}>
-                                <div className="ms-Grid-col ms-u-lg1">11</div>
-                            </div>
-                        </li>
-                        <li className={`${styles.li}`}>
-                            <div className={`${styles.fakerow}`}>
-                                <div className="ms-Grid-col ms-u-lg1">12</div>
-                            </div>
-                        </li>
+                        
                     </ul>
                 </div>
                 <div >
@@ -259,14 +227,16 @@ export class RecruitmentApi extends React.Component<IRecruitmentApiProps, IRecru
         let stepOutput: IStep = {
             lane: lane,
             bgColor: bgColor
-        }
+        };
         return stepOutput;
     }
 
     private _showDetails() {
-        this.setState({ vrDetailsVisible: true })
+        this.setState({ vrDetailsVisible: true });
     }
-    private _closeModal() {
-        this.setState({ vrDetailsVisible: false })
+
+    public _closeModal() {
+        this.setState({vrDetailsVisible: false});
     }
+
 }
