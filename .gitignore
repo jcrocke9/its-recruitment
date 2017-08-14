@@ -30,3 +30,6 @@ obj
 
 # Styles Generated Code
 *.scss.ts
+
+# Config directory with keys
+config
