@@ -5,6 +5,7 @@ npm-debug.log*
 
 # Dependency directories
 node_modules
+config
 
 # Build generated files
 dist
@@ -30,6 +31,3 @@ obj
 
 # Styles Generated Code
 *.scss.ts
-
-# Config directory with keys
-config/
