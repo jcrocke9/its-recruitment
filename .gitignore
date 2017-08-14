@@ -32,4 +32,4 @@ obj
 *.scss.ts
 
 # Config directory with keys
-config
+config/
