@@ -58,11 +58,19 @@ export class RecruitmentApi extends React.Component<IRecruitmentApiProps, IRecru
             return (
                 <li className={`${styles.li}`}>
                     <div className="ms-Grid-row">
-                        <div className={`ms-bgColor-${bgColor} ms-fontColor-white ms-Grid-col ms-u-sm4 ms-u-smPush${lanePushSm} ms-u-lg1 ms-u-lgPush${lanePush}`} onClick={this._showDetails.bind(this)} >
+                        <div
+                            className={`ms-bgColor-${bgColor} ms-fontColor-white ms-Grid-col ms-u-sm4 ms-u-smPush${lanePushSm} ms-u-lg2 ms-u-lgPush${lanePush}`}
+                            onClick={this._showDetails.bind(this)}
+                        >
                             {item.Title}
                         </div>
                     </div>
-                    <VrDetailsModal filter={item.Id} item={item} vrDetailsVisible={this.state.vrDetailsVisible} _closeModal={this._closeModal.bind(this)} />
+                    <VrDetailsModal
+                        filter={item.Id}
+                        item={item}
+                        vrDetailsVisible={this.state.vrDetailsVisible}
+                        _closeModal={this._closeModal.bind(this)}
+                    />
                 </li>
             );
         });
@@ -74,45 +82,34 @@ export class RecruitmentApi extends React.Component<IRecruitmentApiProps, IRecru
                     <ul className={`${styles.ul}`}>
                         <li className={`${styles.li}`}>
                             <div className={`${styles.fakerow}`}>
-                                <div className="ms-Grid-col ms-u-lg1">Decision</div>
+                                <div className="ms-Grid-col ms-u-lg2">Decision</div>
                             </div>
                         </li>
                         <li className={`${styles.li}`}>
                             <div className={`${styles.fakerow}`}>
-                                <div className="ms-Grid-col ms-u-lg1">OMB</div>
+                                <div className="ms-Grid-col ms-u-lg2">OMB</div>
                             </div>
                         </li>
                         <li className={`${styles.li}`}>
                             <div className={`${styles.fakerow}`}>
-                                <div className="ms-Grid-col ms-u-lg1">NeoGov</div>
+                                <div className="ms-Grid-col ms-u-lg2">NeoGov</div>
                             </div>
                         </li>
                         <li className={`${styles.li}`}>
                             <div className={`${styles.fakerow}`}>
-                                <div className="ms-Grid-col ms-u-lg1">Posts</div>
+                                <div className="ms-Grid-col ms-u-lg2">Post/Screen</div>
                             </div>
                         </li>
                         <li className={`${styles.li}`}>
                             <div className={`${styles.fakerow}`}>
-                                <div className="ms-Grid-col ms-u-lg1">Screening</div>
+                                <div className="ms-Grid-col ms-u-lg2">Interview</div>
                             </div>
                         </li>
                         <li className={`${styles.li}`}>
                             <div className={`${styles.fakerow}`}>
-                                <div className="ms-Grid-col ms-u-lg1">Interview</div>
+                                <div className="ms-Grid-col ms-u-lg2">Offer</div>
                             </div>
                         </li>
-                        <li className={`${styles.li}`}>
-                            <div className={`${styles.fakerow}`}>
-                                <div className="ms-Grid-col ms-u-lg1">Offer</div>
-                            </div>
-                        </li>
-                        <li className={`${styles.li}`}>
-                            <div className={`${styles.fakerow}`}>
-                                <div className="ms-Grid-col ms-u-lg1">Onboarding</div>
-                            </div>
-                        </li>
-                        
                     </ul>
                 </div>
                 <div >
@@ -120,7 +117,7 @@ export class RecruitmentApi extends React.Component<IRecruitmentApiProps, IRecru
                         {items}
                     </ul>
                 </div>
-                <div className={`${styles.key}`}>
+                {/*<div className={`${styles.key}`}>
                     <div className="ms-Grid-row">
                         <div className="ms-Grid-col ms-u-lg3">
                             <p>Color Key</p>
@@ -146,7 +143,7 @@ export class RecruitmentApi extends React.Component<IRecruitmentApiProps, IRecru
                             <p>NeoGov</p>
                         </div>
                     </div>
-                </div>
+                </div>*/}
             </div>
         );
     }
@@ -190,21 +187,21 @@ export class RecruitmentApi extends React.Component<IRecruitmentApiProps, IRecru
         let stepNum: number = Number(stepStr);
         if (stepNum <= 2) {
             lane = 1;
-        } else if (stepNum === 3) {
-            lane = 2;
-            bgColor = "yellowLight";
-        } else if (stepNum <= 7) {
+        } else if (stepNum === 3) { // stepNum === 3
             lane = 3;
-        } else if (stepNum === 8) {
-            lane = 4;
-        } else if (stepNum === 9) {
+            // bgColor = "yellowLight";
+        } else if (stepNum <= 7) { // stepNum <= 7
+            lane = 5;
+        } else if (stepNum <= 11) { // stepNum === 8
+            lane = 7;
+        } /* else if () { // stepNum === 9
             lane = 4;
             bgColor = "blueMid";
-        } else if (stepNum <= 11) {
-            lane = 5;
-        } else if (stepNum === 12) {
-            lane = 6;
-        } else if (stepNum <= 17) {
+        } */ else if (stepNum === 12) { // stepNum <= 11
+            lane = 9;
+        } else if (stepNum > 12) { // stepNum === 12
+            lane = 11;
+        } /* else if (stepNum <= 17) {
             lane = 7;
         } else if (stepNum <= 19) {
             lane = 8;
@@ -220,7 +217,7 @@ export class RecruitmentApi extends React.Component<IRecruitmentApiProps, IRecru
         } else if (stepNum === 37) {
             lane = 12;
             bgColor = "blueMid";
-        } else {
+        } */ else {
             lane = 1;
             bgColor = "themeDark";
         }
@@ -231,12 +228,14 @@ export class RecruitmentApi extends React.Component<IRecruitmentApiProps, IRecru
         return stepOutput;
     }
 
-    private _showDetails() {
-        this.setState({ vrDetailsVisible: true });
+    private _showDetails(item: IListItem) {
+        this.setState({
+            vrDetailsVisible: true
+        });
     }
 
     public _closeModal() {
-        this.setState({vrDetailsVisible: false});
+        this.setState({ vrDetailsVisible: false });
     }
 
 }
