@@ -2,7 +2,6 @@ import * as React from 'react';
 import styles from './RecruitmentDashboard.module.scss';
 import './Modal.Basic.Example.scss';
 import { SPHttpClient, SPHttpClientResponse } from '@microsoft/sp-http';
-import { Modal } from 'office-ui-fabric-react/lib/Modal';
 import { IRecruitmentApiProps } from './IRecruitmentApiProps';
 import { IRecruitmentApiState } from './IRecruitmentApiState';
 import { IListItem } from './IListItem';
@@ -17,7 +16,9 @@ export class RecruitmentApi extends React.Component<IRecruitmentApiProps, IRecru
         this.state = {
             status: this.listNotConfigured(this.props) ? 'Please configure list in Web Part properties' : 'Ready',
             items: [],
-            vrDetailsVisible: false
+            vrDetailsVisible: false,
+            item: undefined,
+            filter: 0
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -39,7 +40,7 @@ export class RecruitmentApi extends React.Component<IRecruitmentApiProps, IRecru
         });
     }
 
-    componentDidMount() {
+    public componentDidMount():void {
         let load: boolean = this.listNotConfigured(this.props);
         if (!load) {
             this.readItems();
@@ -59,18 +60,13 @@ export class RecruitmentApi extends React.Component<IRecruitmentApiProps, IRecru
                 <li className={`${styles.li}`}>
                     <div className="ms-Grid-row">
                         <div
-                            className={`ms-bgColor-${bgColor} ms-fontColor-white ms-Grid-col ms-u-sm4 ms-u-smPush${lanePushSm} ms-u-lg2 ms-u-lgPush${lanePush}`}
-                            onClick={this._showDetails.bind(this)}
+                            className={`${styles.boxShadow} ms-bgColor-${bgColor} ms-fontColor-white ms-Grid-col ms-u-sm4 ms-u-smPush${lanePushSm} ms-u-lg2 ms-u-lgPush${lanePush}`}
+                            onClick={this._showDetails.bind(this, item.Id, item)}
                         >
-                            {item.Title}
+                            {item.vrDashNote}
                         </div>
                     </div>
-                    <VrDetailsModal
-                        filter={item.Id}
-                        item={item}
-                        vrDetailsVisible={this.state.vrDetailsVisible}
-                        _closeModal={this._closeModal.bind(this)}
-                    />
+                    
                 </li>
             );
         });
@@ -78,6 +74,12 @@ export class RecruitmentApi extends React.Component<IRecruitmentApiProps, IRecru
         return (
             <div>
                 {this.state.status}
+                <VrDetailsModal
+                        filter={this.state.filter}
+                        item={this.state.item}
+                        vrDetailsVisible={this.state.vrDetailsVisible}
+                        _closeModal={this._closeModal.bind(this)}
+                    />
                 <div >
                     <ul className={`${styles.ul}`}>
                         <li className={`${styles.li}`}>
@@ -152,7 +154,7 @@ export class RecruitmentApi extends React.Component<IRecruitmentApiProps, IRecru
             status: 'Loading all items...',
             items: []
         });
-        this.props.spHttpClient.get(`${this.props.siteUrl}/_api/web/lists/getbytitle('${this.props.listName}')/items?$select=Title,Id,vrStep`,
+        this.props.spHttpClient.get(`${this.props.siteUrl}/_api/web/lists/getbytitle('${this.props.listName}')/items`,
             SPHttpClient.configurations.v1,
             {
                 headers: {
@@ -228,13 +230,15 @@ export class RecruitmentApi extends React.Component<IRecruitmentApiProps, IRecru
         return stepOutput;
     }
 
-    private _showDetails(item: IListItem) {
+    private _showDetails(filter: number, item: IListItem):void {
         this.setState({
-            vrDetailsVisible: true
+            vrDetailsVisible: true,
+            filter: filter,
+            item: item
         });
     }
 
-    public _closeModal() {
+    public _closeModal():void {
         this.setState({ vrDetailsVisible: false });
     }
 
