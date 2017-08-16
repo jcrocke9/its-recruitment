@@ -11,4 +11,5 @@ export interface IListItem {
     vrState?: string;
     vrVacancyNo?: string;
     vrDashNote?: string;
+    Modified: string;
 }

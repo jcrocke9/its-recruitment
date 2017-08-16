@@ -52,10 +52,13 @@ export class RecruitmentApi extends React.Component<IRecruitmentApiProps, IRecru
         const items: JSX.Element[] = this.state.items.map((item: IListItem, i: number): JSX.Element => {
             let stepDesc: string = item.vrStep;
             let step: string = stepDesc.slice(1, 3);
+            let modified: string = item.Modified;
             let lane: number = (this.figureOutLaneFromStep(step)).lane;
             let lanePush: number = lane - 1;
             let lanePushSm: number = lane - 3;
-            let bgColor: string = (this.figureOutLaneFromStep(step)).bgColor;
+            // let bgColor: string = (this.figureOutLaneFromStep(step)).bgColor;
+            let bgColor: string = this.figureOutModified(modified);
+            this.figureOutModified(modified);
             return (
                 <li className={`${styles.li}`}>
                     <div className="ms-Grid-row">
@@ -228,6 +231,19 @@ export class RecruitmentApi extends React.Component<IRecruitmentApiProps, IRecru
             bgColor: bgColor
         };
         return stepOutput;
+    }
+
+    private figureOutModified(modified: string): string {
+        let date:Date = new Date();
+        let threeDaysAgo:Date = new Date(date.setDate(date.getDate() - 3));
+        let modifiedDate:Date = new Date(Date.parse(modified));
+        if (modifiedDate >= threeDaysAgo) {
+            let bgColor: string = "themeDark";
+            return bgColor;
+        } else {
+            let bgColor: string = "themeSecondary";
+            return bgColor;
+        }
     }
 
     private _showDetails(filter: number, item: IListItem):void {
