@@ -97,22 +97,22 @@ export class RecruitmentApi extends React.Component<IRecruitmentApiProps, IRecru
                         </li>
                         <li className={`${styles.li}`}>
                             <div className={`${styles.fakerow}`}>
-                                <div className="ms-Grid-col ms-u-lg2">NeoGov</div>
+                                <div className="ms-Grid-col ms-u-lg2">Recruit</div>
                             </div>
                         </li>
                         <li className={`${styles.li}`}>
                             <div className={`${styles.fakerow}`}>
-                                <div className="ms-Grid-col ms-u-lg2">Post/Screen</div>
-                            </div>
-                        </li>
-                        <li className={`${styles.li}`}>
-                            <div className={`${styles.fakerow}`}>
-                                <div className="ms-Grid-col ms-u-lg2">Interview</div>
+                                <div className="ms-Grid-col ms-u-lg2">Screen/Interview</div>
                             </div>
                         </li>
                         <li className={`${styles.li}`}>
                             <div className={`${styles.fakerow}`}>
                                 <div className="ms-Grid-col ms-u-lg2">Offer</div>
+                            </div>
+                        </li>
+                        <li className={`${styles.li}`}>
+                            <div className={`${styles.fakerow}`}>
+                                <div className="ms-Grid-col ms-u-lg2">Onboard</div>
                             </div>
                         </li>
                     </ul>
@@ -157,7 +157,7 @@ export class RecruitmentApi extends React.Component<IRecruitmentApiProps, IRecru
             status: 'Loading all items...',
             items: []
         });
-        this.props.spHttpClient.get(`${this.props.siteUrl}/_api/web/lists/getbytitle('${this.props.listName}')/items`,
+        this.props.spHttpClient.get(`${this.props.siteUrl}/_api/web/lists/getbytitle('${this.props.listName}')/items?$select=Id,Title,vrDashNote,vrFormerlyHeldBy,vrGradeStep,Modified,vrNotes,vrApplications,vrNeoGovHits,vrState,vrStep,vrVacancyNo`,
             SPHttpClient.configurations.v1,
             {
                 headers: {
@@ -190,21 +190,21 @@ export class RecruitmentApi extends React.Component<IRecruitmentApiProps, IRecru
         let lane: number;
         let bgColor: string = "themeDark";
         let stepNum: number = Number(stepStr);
-        if (stepNum <= 2) {
+        if (stepNum <= 7) {
             lane = 1;
-        } else if (stepNum === 3) { // stepNum === 3
+        } else if (stepNum === 8) { // stepNum === 3
             lane = 3;
             // bgColor = "yellowLight";
-        } else if (stepNum <= 7) { // stepNum <= 7
+        } else if (stepNum <= 11) { // stepNum <= 7
             lane = 5;
-        } else if (stepNum <= 11) { // stepNum === 8
+        } else if (stepNum <= 23) { // stepNum === 8
             lane = 7;
         } /* else if () { // stepNum === 9
             lane = 4;
             bgColor = "blueMid";
-        } */ else if (stepNum === 12) { // stepNum <= 11
+        } */ else if (stepNum <= 28) { // stepNum <= 11
             lane = 9;
-        } else if (stepNum > 12) { // stepNum === 12
+        } else if (stepNum >= 29) { // stepNum === 12
             lane = 11;
         } /* else if (stepNum <= 17) {
             lane = 7;

@@ -24,7 +24,7 @@ export class VrDetailsModal extends React.Component<IvrDetailsModalProps, void> 
                         containerClassName='ms-modalExample-container'
                     >
                         <div className="ms-font-l ms-modalExample-header">
-                            <span>{this.props.item.vrDashNote}</span>
+                            <span>{this.props.item.Title}</span>
                         </div>
                         <div className='ms-font-m ms-modalExample-body'>
                             <div className="ms-Grid-row">
